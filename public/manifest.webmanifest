@@ -1,0 +1,10 @@
+{
+  "name": "ZIKIT BALLISTICS",
+  "short_name": "ZIKIT",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d1116",
+  "theme_color": "#101820",
+  "dir": "rtl",
+  "lang": "he"
+}

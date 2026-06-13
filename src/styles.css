@@ -1,0 +1,368 @@
+:root {
+  color: #f4ffe7;
+  background: #071109;
+  font-family:
+    Arial,
+    "Noto Sans Hebrew",
+    "Segoe UI",
+    sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  --panel: #0f1d12;
+  --panel-strong: #142719;
+  --panel-soft: #1a321f;
+  --line: #2c5535;
+  --text: #f4ffe7;
+  --muted: #bdd5bf;
+  --teal: #62d36f;
+  --amber: #d8f6a5;
+  --green: #83e386;
+  --red: #f18686;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, rgba(98, 211, 111, 0.16), transparent 260px),
+    #071109;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.appShell {
+  width: min(100%, 760px);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 18px 14px 12px;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.companyLogo {
+  width: min(220px, 64vw);
+  max-height: 150px;
+  object-fit: contain;
+  filter: hue-rotate(95deg) saturate(1.15) brightness(1.08);
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.55rem, 7vw, 2.45rem);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.hero p,
+footer {
+  margin: 7px 0 0;
+  color: var(--muted);
+}
+
+.controls {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.field {
+  display: grid;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+input,
+select {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 12px;
+  color: var(--text);
+  background: var(--panel);
+  outline: none;
+}
+
+input:focus,
+select:focus,
+button:focus-visible {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(98, 211, 111, 0.2);
+}
+
+.inputIconWrap {
+  position: relative;
+}
+
+.inputIconWrap svg {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  color: var(--muted);
+}
+
+.inputIconWrap input {
+  padding-right: 40px;
+}
+
+.emptyState {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(216, 246, 165, 0.3);
+  border-radius: 8px;
+  color: #d8f6a5;
+  background: rgba(216, 246, 165, 0.08);
+}
+
+.infoCard {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.infoCard div {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.infoCard span {
+  color: var(--muted);
+}
+
+.infoCard strong {
+  text-align: left;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.tabs.underChart {
+  margin-top: 10px;
+}
+
+.tabs button,
+.primaryButton,
+.iconButton {
+  min-height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text);
+  background: var(--panel);
+}
+
+.tabs button,
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.tabs button.active,
+.primaryButton {
+  border-color: rgba(98, 211, 111, 0.75);
+  background: #1b3f22;
+}
+
+.chartPanel,
+.practicePanel,
+.readout {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.chartPanel {
+  position: relative;
+  padding: 8px 8px 12px;
+  margin-top: 12px;
+}
+
+.chartWrap {
+  position: relative;
+  height: min(58vh, 420px);
+  min-height: 330px;
+  touch-action: none;
+  user-select: none;
+}
+
+.chartHoverTooltip {
+  display: grid;
+  gap: 4px;
+  min-width: 134px;
+  padding: 9px 11px;
+  border: 1px solid rgba(98, 211, 111, 0.42);
+  border-radius: 8px;
+  color: var(--text);
+  background: #0d1a10;
+  direction: rtl;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.32);
+}
+
+.chartHoverTooltip span,
+.chartHoverTooltip small {
+  color: var(--muted);
+}
+
+.chartHoverTooltip strong {
+  color: var(--teal);
+}
+
+.chartNote,
+.practiceNote {
+  margin: 10px 4px 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.readout {
+  margin-top: 12px;
+  padding: 14px;
+  border-color: rgba(98, 211, 111, 0.48);
+  background: #102617;
+}
+
+.readout p {
+  margin: 0;
+  font-size: 1.08rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.readout small {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+}
+
+.practicePanel {
+  display: grid;
+  gap: 14px;
+  padding: 14px;
+}
+
+.practiceHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.practiceHeader div {
+  display: grid;
+  gap: 4px;
+}
+
+.practiceHeader span {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.practiceHeader strong {
+  line-height: 1.35;
+}
+
+.iconButton {
+  flex: 0 0 auto;
+  padding: 0 12px;
+}
+
+.primaryButton {
+  width: 100%;
+  font-weight: 700;
+}
+
+.question {
+  margin: 0;
+  padding: 16px;
+  border-radius: 8px;
+  color: var(--amber);
+  background: rgba(216, 246, 165, 0.09);
+  font-size: 1.18rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.practiceResult {
+  margin: 0;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.practiceResult.ok {
+  color: #082010;
+  background: var(--green);
+}
+
+.practiceResult.error {
+  color: #220707;
+  background: var(--red);
+}
+
+footer {
+  padding: 22px 0 4px;
+  font-size: 0.72rem;
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .appShell {
+    padding: 28px 20px 14px;
+  }
+
+  .controls {
+    grid-template-columns: 1.2fr 1fr 1.4fr;
+    align-items: end;
+  }
+
+  .emptyState {
+    grid-column: 1 / -1;
+  }
+
+  .infoCard {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .infoCard div {
+    display: grid;
+  }
+
+  .infoCard strong {
+    text-align: right;
+  }
+}
