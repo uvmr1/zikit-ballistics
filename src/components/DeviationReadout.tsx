@@ -12,14 +12,14 @@ export function DeviationReadout({ reading }: DeviationReadoutProps) {
   const deviation = formatDeviation(reading.deviationCm);
   const absoluteDeviation = Math.abs(deviation);
 
-  let status = "הכדור על קו האיפוס";
+  let status = "הכדור פוגע בנקודת המכוון";
 
   if (deviation > 0) {
-    status = `גבוה בכ-${absoluteDeviation} ס״מ`;
+    status = `הכדור פוגע כ-${absoluteDeviation} ס״מ מעל נקודת המכוון`;
   }
 
   if (deviation < 0) {
-    status = `נמוך בכ-${absoluteDeviation} ס״מ`;
+    status = `הכדור פוגע כ-${absoluteDeviation} ס״מ מתחת לנקודת המכוון`;
   }
 
   return (

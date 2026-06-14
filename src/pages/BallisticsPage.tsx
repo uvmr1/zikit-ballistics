@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import { BallisticChart } from "../components/BallisticChart";
-import { BallisticInfoCard } from "../components/BallisticInfoCard";
 import { DeviationReadout } from "../components/DeviationReadout";
 import { SightSelector } from "../components/SightSelector";
 import { WeaponSelector } from "../components/WeaponSelector";
@@ -93,8 +92,6 @@ export function BallisticsPage() {
           onChange={setSelectedSight}
         />
       </section>
-
-      <BallisticInfoCard profile={selectedProfile} />
 
       <DeviationReadout reading={marker} />
 

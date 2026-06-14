@@ -144,17 +144,6 @@ export function BallisticChart({
                 position: "insideTopRight",
               }}
             />
-            <ReferenceLine
-              x={profile.zeroRangeMeters}
-              stroke="#d8f6a5"
-              strokeDasharray="5 5"
-              label={{
-                value: `איפוס ראשון: ${profile.zeroRangeMeters} מ׳`,
-                fill: "#d8f6a5",
-                fontSize: 12,
-                position: "top",
-              }}
-            />
             <Line
               type="natural"
               dataKey="deviationCm"
