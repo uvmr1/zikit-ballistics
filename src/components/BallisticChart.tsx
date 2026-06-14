@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import type { BallisticProfile } from "../data/ballistics";
 import {
-  buildInterpolatedSeries,
+  buildVisualCurveSeries,
   clampRange,
   getInterpolatedDeviation,
   getSortedPoints,
@@ -40,7 +40,7 @@ export function BallisticChart({
   );
 
   const series = useMemo(
-    () => buildInterpolatedSeries(sortedPoints),
+    () => buildVisualCurveSeries(sortedPoints),
     [sortedPoints],
   );
 
@@ -169,7 +169,9 @@ export function BallisticChart({
           </ComposedChart>
         </ResponsiveContainer>
       </div>
-      <p className="chartNote">העקומה מוצגת כהערכה רציפה לפי נקודות הטבלה.</p>
+      <p className="chartNote">
+        המספרים מחושבים בקירוב לינארי; הקו מוחלק להצגה חזותית.
+      </p>
     </section>
   );
 }

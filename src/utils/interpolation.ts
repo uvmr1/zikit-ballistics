@@ -67,6 +67,19 @@ function getHermiteEstimate(
   );
 }
 
+function getLinearEstimate(
+  pointBefore: BallisticPoint,
+  pointAfter: BallisticPoint,
+  rangeMeters: number,
+) {
+  return (
+    pointBefore.deviationCm +
+    ((rangeMeters - pointBefore.rangeMeters) *
+      (pointAfter.deviationCm - pointBefore.deviationCm)) /
+      (pointAfter.rangeMeters - pointBefore.rangeMeters)
+  );
+}
+
 export function getInterpolatedDeviation(
   points: BallisticPoint[],
   rangeMeters: number,
@@ -123,7 +136,7 @@ export function getInterpolatedDeviation(
     ) {
       return {
         rangeMeters,
-        deviationCm: getHermiteEstimate(sortedPoints, index, rangeMeters),
+        deviationCm: getLinearEstimate(pointBefore, pointAfter, rangeMeters),
         isExactPoint: false,
       };
     }
@@ -157,6 +170,64 @@ export function buildInterpolatedSeries(points: BallisticPoint[]) {
     rangeMeters += 1
   ) {
     series.push(getInterpolatedDeviation(sortedPoints, rangeMeters));
+  }
+
+  return series;
+}
+
+export function buildVisualCurveSeries(points: BallisticPoint[]) {
+  const sortedPoints = getSortedPoints(points);
+  const lastPoint = sortedPoints[sortedPoints.length - 1];
+  const series: InterpolatedDeviation[] = [];
+
+  for (
+    let rangeMeters = 0;
+    rangeMeters <= lastPoint.rangeMeters;
+    rangeMeters += 1
+  ) {
+    if (rangeMeters <= sortedPoints[0].rangeMeters) {
+      series.push({
+        rangeMeters,
+        deviationCm: getQuadraticEstimate(sortedPoints, rangeMeters),
+        isExactPoint: rangeMeters === sortedPoints[0].rangeMeters,
+      });
+      continue;
+    }
+
+    if (rangeMeters >= lastPoint.rangeMeters) {
+      series.push({
+        rangeMeters: lastPoint.rangeMeters,
+        deviationCm: lastPoint.deviationCm,
+        isExactPoint: true,
+      });
+      continue;
+    }
+
+    const exactPoint = sortedPoints.find(
+      (point) => point.rangeMeters === rangeMeters,
+    );
+
+    if (exactPoint) {
+      series.push({
+        rangeMeters: exactPoint.rangeMeters,
+        deviationCm: exactPoint.deviationCm,
+        isExactPoint: true,
+      });
+      continue;
+    }
+
+    const segmentIndex = sortedPoints.findIndex(
+      (point, index) =>
+        index < sortedPoints.length - 1 &&
+        rangeMeters > point.rangeMeters &&
+        rangeMeters < sortedPoints[index + 1].rangeMeters,
+    );
+
+    series.push({
+      rangeMeters,
+      deviationCm: getHermiteEstimate(sortedPoints, segmentIndex, rangeMeters),
+      isExactPoint: false,
+    });
   }
 
   return series;
