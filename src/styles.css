@@ -97,9 +97,11 @@ button {
 }
 
 .companyLogo {
-  width: min(248px, 82vw);
-  max-height: 112px;
+  width: min(282px, 88vw);
+  max-height: 92px;
   object-fit: contain;
+  transform: scaleY(0.72);
+  transform-origin: center;
   filter: hue-rotate(95deg) saturate(1.25) brightness(1.12)
     drop-shadow(0 0 18px rgba(114, 226, 124, 0.24));
 }
@@ -114,7 +116,7 @@ h1 {
     "Arial Narrow",
     Arial,
     sans-serif;
-  font-size: clamp(1.42rem, 6.5vw, 2.25rem);
+  font-size: clamp(1.72rem, 8.2vw, 2.85rem);
   font-weight: 800;
   line-height: 0.96;
   letter-spacing: 0.03em;
@@ -249,7 +251,7 @@ button:focus-visible {
 
 .chartPanel {
   position: relative;
-  padding: 10px 8px 12px;
+  padding: 10px 2px 12px;
   width: 100vw;
   margin-top: 12px;
   margin-right: calc(50% - 50vw);
