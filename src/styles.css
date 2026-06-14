@@ -1,6 +1,6 @@
 :root {
   color: #f4ffe7;
-  background: #071109;
+  background: #050b06;
   font-family:
     Arial,
     "Noto Sans Hebrew",
@@ -9,15 +9,16 @@
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  --panel: #0f1d12;
-  --panel-strong: #142719;
-  --panel-soft: #1a321f;
-  --line: #2c5535;
+  --panel: #0b170d;
+  --panel-strong: #102515;
+  --panel-soft: #15331b;
+  --line: #315b38;
   --text: #f4ffe7;
-  --muted: #bdd5bf;
-  --teal: #62d36f;
+  --muted: #adc8ae;
+  --teal: #72e27c;
   --amber: #d8f6a5;
   --green: #83e386;
+  --shadow: rgba(0, 0, 0, 0.42);
   --red: #f18686;
 }
 
@@ -30,8 +31,11 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background:
-    linear-gradient(180deg, rgba(98, 211, 111, 0.16), transparent 260px),
-    #071109;
+    linear-gradient(180deg, rgba(114, 226, 124, 0.14), transparent 260px),
+    linear-gradient(90deg, rgba(114, 226, 124, 0.045) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(114, 226, 124, 0.035) 1px, transparent 1px),
+    #050b06;
+  background-size: auto, 28px 28px, 28px 28px, auto;
 }
 
 button,
@@ -52,19 +56,51 @@ button {
 }
 
 .hero {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding: 14px 12px 16px;
+  border: 1px solid rgba(114, 226, 124, 0.3);
+  border-radius: 8px;
   text-align: center;
+  background:
+    linear-gradient(135deg, rgba(114, 226, 124, 0.12), transparent 38%),
+    rgba(5, 12, 6, 0.76);
+  box-shadow: 0 16px 40px var(--shadow);
+  overflow: hidden;
+}
+
+.hero::before,
+.hero::after {
+  position: absolute;
+  width: 54px;
+  height: 12px;
+  border-top: 2px solid rgba(216, 246, 165, 0.65);
+  content: "";
+}
+
+.hero::before {
+  top: 10px;
+  right: 10px;
+  border-right: 2px solid rgba(216, 246, 165, 0.65);
+}
+
+.hero::after {
+  bottom: 10px;
+  left: 10px;
+  border-left: 2px solid rgba(216, 246, 165, 0.65);
+  transform: rotate(180deg);
 }
 
 .companyLogo {
-  width: min(220px, 64vw);
-  max-height: 150px;
+  width: min(230px, 68vw);
+  max-height: 145px;
   object-fit: contain;
-  filter: hue-rotate(95deg) saturate(1.15) brightness(1.08);
+  filter: hue-rotate(95deg) saturate(1.25) brightness(1.12)
+    drop-shadow(0 0 18px rgba(114, 226, 124, 0.22));
 }
 
 h1 {
@@ -83,7 +119,11 @@ footer {
 .controls {
   display: grid;
   gap: 10px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid rgba(49, 91, 56, 0.8);
+  border-radius: 8px;
+  background: rgba(7, 18, 9, 0.78);
 }
 
 .field {
@@ -97,11 +137,11 @@ input,
 select {
   width: 100%;
   min-height: 48px;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(114, 226, 124, 0.22);
   border-radius: 8px;
   padding: 0 12px;
   color: var(--text);
-  background: var(--panel);
+  background: linear-gradient(180deg, #102315, #0b170d);
   outline: none;
 }
 
@@ -143,9 +183,11 @@ button:focus-visible {
   gap: 8px;
   margin: 12px 0;
   padding: 12px;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(114, 226, 124, 0.24);
   border-radius: 8px;
-  background: var(--panel);
+  background:
+    linear-gradient(90deg, rgba(216, 246, 165, 0.08), transparent 36%),
+    var(--panel);
 }
 
 .infoCard div {
@@ -162,87 +204,45 @@ button:focus-visible {
   text-align: left;
 }
 
-.tabs {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  margin: 12px 0;
-}
-
-.tabs.underChart {
-  margin-top: 10px;
-}
-
-.tabs button,
-.primaryButton,
-.iconButton {
-  min-height: 48px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  color: var(--text);
-  background: var(--panel);
-}
-
-.tabs button,
-.iconButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.tabs button.active,
-.primaryButton {
-  border-color: rgba(98, 211, 111, 0.75);
-  background: #1b3f22;
-}
-
 .chartPanel,
-.practicePanel,
 .readout {
-  border: 1px solid var(--line);
+  border: 1px solid rgba(114, 226, 124, 0.28);
   border-radius: 8px;
-  background: var(--panel);
+  background: rgba(8, 18, 10, 0.88);
+  box-shadow: 0 16px 34px var(--shadow);
 }
 
 .chartPanel {
   position: relative;
-  padding: 8px 8px 12px;
+  padding: 10px 8px 12px;
   margin-top: 12px;
+  overflow: hidden;
+}
+
+.chartPanel::before {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(114, 226, 124, 0.055) 50%,
+    transparent
+  );
+  content: "";
 }
 
 .chartWrap {
   position: relative;
-  height: min(58vh, 420px);
-  min-height: 330px;
+  z-index: 1;
+  height: min(54vh, 410px);
+  min-height: 310px;
   touch-action: none;
   user-select: none;
 }
 
-.chartHoverTooltip {
-  display: grid;
-  gap: 4px;
-  min-width: 134px;
-  padding: 9px 11px;
-  border: 1px solid rgba(98, 211, 111, 0.42);
-  border-radius: 8px;
-  color: var(--text);
-  background: #0d1a10;
-  direction: rtl;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.32);
-}
-
-.chartHoverTooltip span,
-.chartHoverTooltip small {
-  color: var(--muted);
-}
-
-.chartHoverTooltip strong {
-  color: var(--teal);
-}
-
 .chartNote,
-.practiceNote {
+.readoutStatus small {
   margin: 10px 4px 0;
   color: var(--muted);
   font-size: 0.82rem;
@@ -250,88 +250,72 @@ button:focus-visible {
 
 .readout {
   margin-top: 12px;
-  padding: 14px;
-  border-color: rgba(98, 211, 111, 0.48);
-  background: #102617;
+  padding: 12px;
+  border-color: rgba(114, 226, 124, 0.52);
+  background:
+    linear-gradient(135deg, rgba(114, 226, 124, 0.13), transparent 44%),
+    #0b1f10;
 }
 
-.readout p {
-  margin: 0;
-  font-size: 1.08rem;
-  font-weight: 700;
-  line-height: 1.45;
-}
-
-.readout small {
-  display: block;
-  margin-top: 8px;
-  color: var(--muted);
-}
-
-.practicePanel {
+.readoutGrid {
   display: grid;
-  gap: 14px;
-  padding: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
 }
 
-.practiceHeader {
+.metricWindow {
+  position: relative;
+  min-height: 104px;
+  padding: 12px;
+  border: 1px solid rgba(216, 246, 165, 0.26);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(216, 246, 165, 0.1), transparent),
+    #07140a;
+  box-shadow: inset 0 0 24px rgba(114, 226, 124, 0.08);
+}
+
+.metricWindow::after {
+  position: absolute;
+  right: 10px;
+  bottom: 9px;
+  width: 34px;
+  height: 2px;
+  background: var(--teal);
+  content: "";
+}
+
+.metricWindow span,
+.metricWindow small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.metricWindow strong {
+  display: block;
+  margin: 6px 0 2px;
+  color: var(--text);
+  font-size: clamp(2.15rem, 12vw, 3.8rem);
+  line-height: 0.95;
+  letter-spacing: 0;
+}
+
+.readoutStatus {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-}
-
-.practiceHeader div {
-  display: grid;
-  gap: 4px;
-}
-
-.practiceHeader span {
-  color: var(--muted);
-  font-size: 0.84rem;
-}
-
-.practiceHeader strong {
-  line-height: 1.35;
-}
-
-.iconButton {
-  flex: 0 0 auto;
-  padding: 0 12px;
-}
-
-.primaryButton {
-  width: 100%;
-  font-weight: 700;
-}
-
-.question {
-  margin: 0;
-  padding: 16px;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 9px 10px;
+  border: 1px solid rgba(114, 226, 124, 0.22);
   border-radius: 8px;
+  background: rgba(114, 226, 124, 0.07);
+}
+
+.readoutStatus span {
   color: var(--amber);
-  background: rgba(216, 246, 165, 0.09);
-  font-size: 1.18rem;
   font-weight: 700;
-  text-align: center;
-}
-
-.practiceResult {
-  margin: 0;
-  padding: 12px;
-  border-radius: 8px;
-  font-weight: 700;
-  text-align: center;
-}
-
-.practiceResult.ok {
-  color: #082010;
-  background: var(--green);
-}
-
-.practiceResult.error {
-  color: #220707;
-  background: var(--red);
 }
 
 footer {

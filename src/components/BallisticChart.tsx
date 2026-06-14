@@ -5,8 +5,6 @@ import {
   ReferenceDot,
   ReferenceLine,
   ResponsiveContainer,
-  Scatter,
-  Tooltip,
   XAxis,
   YAxis,
   ComposedChart,
@@ -28,20 +26,6 @@ type BallisticChartProps = {
 
 const chartMargins = { top: 26, right: 12, bottom: 22, left: 6 };
 const pointerInset = { left: 52, right: 18 };
-
-function formatDeviation(value: number) {
-  return Number(value.toFixed(1));
-}
-
-function hoverText(deviationCm: number) {
-  const deviation = formatDeviation(deviationCm);
-
-  if (deviation === 0) {
-    return "על קו האיפוס";
-  }
-
-  return deviation > 0 ? "גבוה מקו הכוונת" : "נמוך מקו הכוונת";
-}
 
 export function BallisticChart({
   profile,
@@ -149,26 +133,6 @@ export function BallisticChart({
               width={42}
               unit=" ס״מ"
             />
-            <Tooltip
-              cursor={{ stroke: "#d8f6a5", strokeOpacity: 0.45 }}
-              content={({ active, payload }) => {
-                const point = payload?.[0]?.payload as
-                  | InterpolatedDeviation
-                  | undefined;
-
-                if (!active || !point) {
-                  return null;
-                }
-
-                return (
-                  <div className="chartHoverTooltip">
-                    <span>טווח {point.rangeMeters} מטר</span>
-                    <strong>{formatDeviation(point.deviationCm)} ס״מ</strong>
-                    <small>{hoverText(point.deviationCm)}</small>
-                  </div>
-                );
-              }}
-            />
             <ReferenceLine
               y={0}
               stroke="#9dbb9f"
@@ -192,20 +156,13 @@ export function BallisticChart({
               }}
             />
             <Line
-              type="monotone"
+              type="natural"
               dataKey="deviationCm"
               stroke="#62d36f"
-              strokeWidth={3}
+              strokeWidth={4}
               dot={false}
               activeDot={false}
               isAnimationActive={false}
-            />
-            <Scatter
-              data={sortedPoints}
-              dataKey="deviationCm"
-              fill="#f4ffe7"
-              line={false}
-              shape="circle"
             />
             <ReferenceLine
               x={marker.rangeMeters}

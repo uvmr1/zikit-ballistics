@@ -1,9 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { Activity, Target } from "lucide-react";
 import { BallisticChart } from "../components/BallisticChart";
 import { BallisticInfoCard } from "../components/BallisticInfoCard";
 import { DeviationReadout } from "../components/DeviationReadout";
-import { PracticeMode } from "../components/PracticeMode";
 import { SearchBox } from "../components/SearchBox";
 import { SightSelector } from "../components/SightSelector";
 import { WeaponSelector } from "../components/WeaponSelector";
@@ -12,8 +10,6 @@ import {
   getInterpolatedDeviation,
   type InterpolatedDeviation,
 } from "../utils/interpolation";
-
-type ActiveTab = "chart" | "practice";
 
 function normalize(value: string) {
   return value.trim().toLocaleLowerCase("he-IL");
@@ -33,7 +29,6 @@ export function BallisticsPage() {
   const [selectedSight, setSelectedSight] = useState(
     ballisticProfiles[0].sight,
   );
-  const [activeTab, setActiveTab] = useState<ActiveTab>("chart");
   const [marker, setMarker] = useState<InterpolatedDeviation>(() =>
     getInterpolatedDeviation(
       ballisticProfiles[0].points,
@@ -130,29 +125,6 @@ export function BallisticsPage() {
         marker={marker}
         onMarkerChange={setMarker}
       />
-
-      <nav className="tabs underChart" aria-label="ניווט">
-        <button
-          type="button"
-          className={activeTab === "chart" ? "active" : ""}
-          onClick={() => setActiveTab("chart")}
-        >
-          <Activity aria-hidden="true" size={18} />
-          <span>גרף</span>
-        </button>
-        <button
-          type="button"
-          className={activeTab === "practice" ? "active" : ""}
-          onClick={() => setActiveTab("practice")}
-        >
-          <Target aria-hidden="true" size={18} />
-          <span>תרגול</span>
-        </button>
-      </nav>
-
-      {activeTab === "practice" && (
-        <PracticeMode profile={selectedProfile} />
-      )}
 
       <footer>רכוש פלגה ב</footer>
     </main>

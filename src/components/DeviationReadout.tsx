@@ -12,24 +12,38 @@ export function DeviationReadout({ reading }: DeviationReadoutProps) {
   const deviation = formatDeviation(reading.deviationCm);
   const absoluteDeviation = Math.abs(deviation);
 
-  let text = `בטווח ${reading.rangeMeters} מטר הסטייה היא 0 ס״מ - הכדור על קו האיפוס`;
+  let status = "הכדור על קו האיפוס";
 
   if (deviation > 0) {
-    text = `בטווח ${reading.rangeMeters} מטר הסטייה היא ${deviation} ס״מ - הכדור גבוה בכ-${absoluteDeviation} ס״מ`;
+    status = `גבוה בכ-${absoluteDeviation} ס״מ`;
   }
 
   if (deviation < 0) {
-    text = `בטווח ${reading.rangeMeters} מטר הסטייה היא ${deviation} ס״מ - הכדור נמוך בכ-${absoluteDeviation} ס״מ`;
+    status = `נמוך בכ-${absoluteDeviation} ס״מ`;
   }
 
   return (
     <section className="readout" aria-live="polite">
-      <p>{text}</p>
-      <small>
-        {reading.isExactPoint
-          ? "נקודה מקורית מהטבלה."
-          : "ערך מחושב בקירוב לינארי בין נקודות הטבלה."}
-      </small>
+      <div className="readoutGrid">
+        <div className="metricWindow">
+          <span>בטווח</span>
+          <strong>{reading.rangeMeters}</strong>
+          <small>מטר</small>
+        </div>
+        <div className="metricWindow">
+          <span>הסטייה היא</span>
+          <strong>{deviation}</strong>
+          <small>ס״מ</small>
+        </div>
+      </div>
+      <div className="readoutStatus">
+        <span>{status}</span>
+        <small>
+          {reading.isExactPoint
+            ? "נקודה מקורית מהטבלה"
+            : "ערך מחושב בין נקודות הטבלה"}
+        </small>
+      </div>
     </section>
   );
 }
