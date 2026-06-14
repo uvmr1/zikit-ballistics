@@ -340,11 +340,19 @@ button:focus-visible {
 }
 
 .metricWindow span {
-  color: var(--amber);
-  font-size: clamp(0.9rem, 3.4vw, 1.05rem);
-  font-weight: 800;
-  line-height: 1.05;
+  color: #e9ffc1;
+  font-family:
+    "Narkisim",
+    "FrankRuehl",
+    "David",
+    "Segoe UI",
+    Arial,
+    sans-serif;
+  font-size: clamp(1.04rem, 4.1vw, 1.24rem);
+  font-weight: 900;
+  line-height: 1;
   text-align: center;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.72);
 }
 
 .metricWindow small {
