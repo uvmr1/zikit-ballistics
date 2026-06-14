@@ -24,8 +24,8 @@ type BallisticChartProps = {
   onMarkerChange: (reading: InterpolatedDeviation) => void;
 };
 
-const chartMargins = { top: 26, right: 12, bottom: 22, left: 6 };
-const pointerInset = { left: 52, right: 18 };
+const chartMargins = { top: 26, right: 0, bottom: 22, left: 0 };
+const pointerInset = { left: 2, right: 4 };
 
 export function BallisticChart({
   profile,
@@ -119,6 +119,7 @@ export function BallisticChart({
               type="number"
               dataKey="rangeMeters"
               domain={[minRange, maxRange]}
+              padding={{ left: 0, right: 0 }}
               tick={{ fill: "#d6ead8", fontSize: 12 }}
               tickLine={{ stroke: "#4f7659" }}
               axisLine={{ stroke: "#4f7659" }}
@@ -127,11 +128,10 @@ export function BallisticChart({
             <YAxis
               type="number"
               domain={yDomain}
-              tick={{ fill: "#d6ead8", fontSize: 12 }}
-              tickLine={{ stroke: "#4f7659" }}
-              axisLine={{ stroke: "#4f7659" }}
-              width={42}
-              unit=" ס״מ"
+              tick={false}
+              tickLine={false}
+              axisLine={false}
+              width={0}
             />
             <ReferenceLine
               y={0}

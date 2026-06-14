@@ -97,13 +97,15 @@ button {
 }
 
 .companyLogo {
-  width: min(282px, 88vw);
-  max-height: 92px;
+  width: min(420px, 99vw);
+  max-height: 124px;
   object-fit: contain;
-  transform: scaleY(0.72);
+  transform: scaleY(0.66);
   transform-origin: center;
-  filter: hue-rotate(95deg) saturate(1.25) brightness(1.12)
-    drop-shadow(0 0 18px rgba(114, 226, 124, 0.24));
+  filter: contrast(1.08) saturate(1.55) brightness(1.22)
+    drop-shadow(0 0 10px rgba(255, 235, 194, 0.22))
+    drop-shadow(0 0 22px rgba(216, 246, 165, 0.24))
+    drop-shadow(0 10px 20px rgba(0, 0, 0, 0.68));
 }
 
 h1 {
@@ -251,11 +253,13 @@ button:focus-visible {
 
 .chartPanel {
   position: relative;
-  padding: 10px 2px 12px;
-  width: 100vw;
+  left: 50%;
+  right: 50%;
+  padding: 10px 0 12px;
+  width: 100dvw;
   margin-top: 12px;
-  margin-right: calc(50% - 50vw);
-  margin-left: calc(50% - 50vw);
+  margin-right: -50dvw;
+  margin-left: -50dvw;
   border-right: 0;
   border-left: 0;
   border-radius: 0;
