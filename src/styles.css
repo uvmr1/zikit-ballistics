@@ -80,9 +80,9 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   margin-bottom: 10px;
-  padding: 2px 8px 8px;
+  padding: 8px 8px 8px;
   border: 0;
   border-radius: 8px;
   text-align: center;
@@ -97,14 +97,12 @@ button {
 }
 
 .companyLogo {
-  width: min(390px, 96vw);
-  max-height: 116px;
+  width: min(365px, 92vw);
+  max-height: 152px;
   object-fit: contain;
-  transform: scaleY(0.68);
+  transform: scaleY(0.9);
   transform-origin: center;
-  filter: hue-rotate(92deg) saturate(1.55) brightness(1.32)
-    drop-shadow(0 0 14px rgba(216, 246, 165, 0.36))
-    drop-shadow(0 8px 18px rgba(0, 0, 0, 0.64));
+  filter: none;
 }
 
 h1 {
@@ -308,9 +306,13 @@ button:focus-visible {
 
 .metricWindow {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   min-width: 0;
   min-height: 104px;
-  padding: 12px;
+  padding: 16px 12px 24px;
   border: 1px solid rgba(216, 246, 165, 0.26);
   border-radius: 8px;
   background:
@@ -322,7 +324,7 @@ button:focus-visible {
 
 .metricWindow::after {
   position: absolute;
-  right: 10px;
+  left: 10px;
   bottom: 9px;
   width: 34px;
   height: 2px;
@@ -337,13 +339,28 @@ button:focus-visible {
   font-size: 0.82rem;
 }
 
+.metricWindow span {
+  color: var(--amber);
+  font-size: clamp(0.9rem, 3.4vw, 1.05rem);
+  font-weight: 800;
+  line-height: 1.05;
+  text-align: center;
+}
+
+.metricWindow small {
+  position: absolute;
+  left: 12px;
+  bottom: 14px;
+}
+
 .metricWindow strong {
   display: block;
-  margin: 6px 0 2px;
+  margin: 7px 0 0;
   color: var(--text);
   font-size: clamp(2.15rem, 12vw, 3.8rem);
   line-height: 0.95;
   letter-spacing: 0;
+  text-align: center;
 }
 
 .readoutStatus {

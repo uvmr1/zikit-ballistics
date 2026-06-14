@@ -73,7 +73,7 @@ export function BallisticsPage() {
   return (
     <main className="appShell">
       <header className="hero">
-        <img className="companyLogo" src="/zikit-clean.png" alt="לוגו זיקית" />
+        <img className="companyLogo" src="/zikit-flat.png" alt="לוגו זיקית" />
         <div>
           <h1>ZIKIT BALLISTICS</h1>
           <p>לימוד סטיות בליסטיות לפי נשק וכוונת</p>
