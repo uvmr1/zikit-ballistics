@@ -19,6 +19,8 @@
   --amber: #d8f6a5;
   --green: #83e386;
   --shadow: rgba(0, 0, 0, 0.42);
+  --olive: #9fb56f;
+  --deep: #030803;
   --red: #f18686;
 }
 
@@ -31,11 +33,28 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background:
-    linear-gradient(180deg, rgba(114, 226, 124, 0.14), transparent 260px),
+    radial-gradient(circle at 50% -80px, rgba(216, 246, 165, 0.16), transparent 270px),
+    radial-gradient(circle at 8% 38%, rgba(114, 226, 124, 0.08), transparent 190px),
+    linear-gradient(180deg, rgba(114, 226, 124, 0.09), transparent 250px),
     linear-gradient(90deg, rgba(114, 226, 124, 0.045) 1px, transparent 1px),
     linear-gradient(0deg, rgba(114, 226, 124, 0.035) 1px, transparent 1px),
-    #050b06;
+    var(--deep);
   background-size: auto, 28px 28px, 28px 28px, auto;
+}
+
+body::before {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(244, 255, 231, 0.025),
+    rgba(244, 255, 231, 0.025) 1px,
+    transparent 1px,
+    transparent 5px
+  );
+  content: "";
+  mix-blend-mode: soft-light;
 }
 
 button,
@@ -49,6 +68,7 @@ button {
 }
 
 .appShell {
+  position: relative;
   width: min(100%, 760px);
   min-height: 100vh;
   margin: 0 auto;
@@ -62,13 +82,13 @@ button {
   align-items: center;
   gap: 10px;
   margin-bottom: 18px;
-  padding: 14px 12px 16px;
-  border: 1px solid rgba(114, 226, 124, 0.3);
+  padding: 16px 12px 17px;
+  border: 1px solid rgba(216, 246, 165, 0.34);
   border-radius: 8px;
   text-align: center;
   background:
-    linear-gradient(135deg, rgba(114, 226, 124, 0.12), transparent 38%),
-    rgba(5, 12, 6, 0.76);
+    linear-gradient(135deg, rgba(216, 246, 165, 0.13), transparent 38%),
+    linear-gradient(180deg, rgba(12, 31, 16, 0.94), rgba(4, 10, 5, 0.9));
   box-shadow: 0 16px 40px var(--shadow);
   overflow: hidden;
 }
@@ -105,9 +125,10 @@ button {
 
 h1 {
   margin: 0;
-  font-size: clamp(1.55rem, 7vw, 2.45rem);
+  font-size: clamp(1.55rem, 7vw, 2.5rem);
   line-height: 1;
   letter-spacing: 0;
+  text-shadow: 0 0 24px rgba(114, 226, 124, 0.18);
 }
 
 .hero p,
@@ -118,31 +139,73 @@ footer {
 
 .controls {
   display: grid;
-  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 9px;
   margin-bottom: 10px;
-  padding: 10px;
-  border: 1px solid rgba(49, 91, 56, 0.8);
+  padding: 9px;
+  border: 1px solid rgba(216, 246, 165, 0.2);
   border-radius: 8px;
-  background: rgba(7, 18, 9, 0.78);
+  background:
+    linear-gradient(90deg, rgba(216, 246, 165, 0.055), transparent),
+    rgba(4, 13, 6, 0.78);
 }
 
 .field {
   display: grid;
-  gap: 7px;
+  gap: 6px;
   color: var(--muted);
   font-size: 0.88rem;
+}
+
+.choiceCard {
+  position: relative;
+  min-height: 82px;
+  padding: 9px;
+  border: 1px solid rgba(114, 226, 124, 0.24);
+  border-radius: 8px;
+  background:
+    linear-gradient(160deg, rgba(114, 226, 124, 0.11), transparent 48%),
+    #081409;
+  box-shadow: inset 0 0 0 1px rgba(244, 255, 231, 0.025);
+}
+
+.choiceCard::before {
+  position: absolute;
+  top: 9px;
+  left: 9px;
+  width: 22px;
+  height: 2px;
+  background: var(--olive);
+  content: "";
+}
+
+.choiceLabel {
+  color: var(--amber);
+  font-size: 0.76rem;
+  font-weight: 700;
 }
 
 input,
 select {
   width: 100%;
-  min-height: 48px;
+  min-height: 42px;
   border: 1px solid rgba(114, 226, 124, 0.22);
   border-radius: 8px;
   padding: 0 12px;
   color: var(--text);
   background: linear-gradient(180deg, #102315, #0b170d);
   outline: none;
+}
+
+select {
+  overflow: hidden;
+  appearance: none;
+  padding-left: 26px;
+  background:
+    linear-gradient(45deg, transparent 50%, var(--amber) 50%) left 13px center / 6px 6px no-repeat,
+    linear-gradient(135deg, var(--amber) 50%, transparent 50%) left 8px center / 6px 6px no-repeat,
+    linear-gradient(180deg, #102315, #0b170d);
+  text-overflow: ellipsis;
 }
 
 input:focus,
@@ -186,8 +249,8 @@ button:focus-visible {
   border: 1px solid rgba(114, 226, 124, 0.24);
   border-radius: 8px;
   background:
-    linear-gradient(90deg, rgba(216, 246, 165, 0.08), transparent 36%),
-    var(--panel);
+    linear-gradient(90deg, rgba(216, 246, 165, 0.1), transparent 36%),
+    linear-gradient(180deg, rgba(20, 45, 24, 0.85), rgba(8, 18, 10, 0.9));
 }
 
 .infoCard div {
@@ -208,7 +271,9 @@ button:focus-visible {
 .readout {
   border: 1px solid rgba(114, 226, 124, 0.28);
   border-radius: 8px;
-  background: rgba(8, 18, 10, 0.88);
+  background:
+    linear-gradient(180deg, rgba(19, 43, 23, 0.85), rgba(5, 12, 6, 0.94)),
+    rgba(8, 18, 10, 0.88);
   box-shadow: 0 16px 34px var(--shadow);
 }
 
@@ -223,12 +288,9 @@ button:focus-visible {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    transparent,
-    rgba(114, 226, 124, 0.055) 50%,
-    transparent
-  );
+  background:
+    linear-gradient(180deg, transparent, rgba(114, 226, 124, 0.055) 50%, transparent),
+    radial-gradient(circle at 50% 45%, rgba(216, 246, 165, 0.08), transparent 42%);
   content: "";
 }
 
@@ -253,8 +315,8 @@ button:focus-visible {
   padding: 12px;
   border-color: rgba(114, 226, 124, 0.52);
   background:
-    linear-gradient(135deg, rgba(114, 226, 124, 0.13), transparent 44%),
-    #0b1f10;
+    linear-gradient(135deg, rgba(216, 246, 165, 0.13), transparent 44%),
+    linear-gradient(180deg, #102a16, #061108);
 }
 
 .readoutGrid {
@@ -270,7 +332,8 @@ button:focus-visible {
   border: 1px solid rgba(216, 246, 165, 0.26);
   border-radius: 8px;
   background:
-    linear-gradient(180deg, rgba(216, 246, 165, 0.1), transparent),
+    linear-gradient(180deg, rgba(216, 246, 165, 0.13), transparent),
+    radial-gradient(circle at 18% 20%, rgba(114, 226, 124, 0.13), transparent 38%),
     #07140a;
   box-shadow: inset 0 0 24px rgba(114, 226, 124, 0.08);
 }
@@ -319,7 +382,7 @@ button:focus-visible {
 }
 
 footer {
-  padding: 22px 0 4px;
+  padding: 20px 0 4px;
   font-size: 0.72rem;
   text-align: center;
 }
@@ -330,7 +393,7 @@ footer {
   }
 
   .controls {
-    grid-template-columns: 1.2fr 1fr 1.4fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: end;
   }
 

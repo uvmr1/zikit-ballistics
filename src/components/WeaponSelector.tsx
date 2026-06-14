@@ -10,8 +10,8 @@ export function WeaponSelector({
   onChange,
 }: WeaponSelectorProps) {
   return (
-    <label className="field">
-      <span>בחירת נשק</span>
+    <label className="field choiceCard">
+      <span className="choiceLabel">נשק</span>
       <select
         value={value}
         onChange={(event) => onChange(event.target.value)}

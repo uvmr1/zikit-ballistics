@@ -6,8 +6,8 @@ type SightSelectorProps = {
 
 export function SightSelector({ sights, value, onChange }: SightSelectorProps) {
   return (
-    <label className="field">
-      <span>בחירת כוונת</span>
+    <label className="field choiceCard">
+      <span className="choiceLabel">כוונת</span>
       <select
         value={value}
         onChange={(event) => onChange(event.target.value)}

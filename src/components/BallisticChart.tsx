@@ -53,7 +53,7 @@ export function BallisticChart({
     return [Math.floor(min - padding), Math.ceil(max + padding)];
   }, [sortedPoints]);
 
-  const minRange = sortedPoints[0].rangeMeters;
+  const minRange = 0;
   const maxRange = sortedPoints[sortedPoints.length - 1].rangeMeters;
 
   const updateFromClientX = (clientX: number) => {

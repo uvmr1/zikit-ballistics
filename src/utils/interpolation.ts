@@ -10,6 +10,28 @@ export function getSortedPoints(points: BallisticPoint[]) {
   return [...points].sort((a, b) => a.rangeMeters - b.rangeMeters);
 }
 
+function getQuadraticEstimate(points: BallisticPoint[], rangeMeters: number) {
+  const [firstPoint, secondPoint, thirdPoint] = points;
+
+  if (!firstPoint || !secondPoint || !thirdPoint) {
+    return firstPoint?.deviationCm ?? 0;
+  }
+
+  const x = rangeMeters;
+  const x1 = firstPoint.rangeMeters;
+  const x2 = secondPoint.rangeMeters;
+  const x3 = thirdPoint.rangeMeters;
+  const y1 = firstPoint.deviationCm;
+  const y2 = secondPoint.deviationCm;
+  const y3 = thirdPoint.deviationCm;
+
+  const firstTerm = y1 * ((x - x2) * (x - x3)) / ((x1 - x2) * (x1 - x3));
+  const secondTerm = y2 * ((x - x1) * (x - x3)) / ((x2 - x1) * (x2 - x3));
+  const thirdTerm = y3 * ((x - x1) * (x - x2)) / ((x3 - x1) * (x3 - x2));
+
+  return firstTerm + secondTerm + thirdTerm;
+}
+
 export function getInterpolatedDeviation(
   points: BallisticPoint[],
   rangeMeters: number,
@@ -24,10 +46,15 @@ export function getInterpolatedDeviation(
   const lastPoint = sortedPoints[sortedPoints.length - 1];
 
   if (rangeMeters <= firstPoint.rangeMeters) {
+    const estimatedRange = Math.max(0, rangeMeters);
+
     return {
-      rangeMeters: firstPoint.rangeMeters,
-      deviationCm: firstPoint.deviationCm,
-      isExactPoint: true,
+      rangeMeters: estimatedRange,
+      deviationCm:
+        estimatedRange === firstPoint.rangeMeters
+          ? firstPoint.deviationCm
+          : getQuadraticEstimate(sortedPoints, estimatedRange),
+      isExactPoint: estimatedRange === firstPoint.rangeMeters,
     };
   }
 
@@ -82,23 +109,21 @@ export function getInterpolatedDeviation(
 
 export function clampRange(points: BallisticPoint[], rangeMeters: number) {
   const sortedPoints = getSortedPoints(points);
-  const firstPoint = sortedPoints[0];
   const lastPoint = sortedPoints[sortedPoints.length - 1];
 
   return Math.min(
-    Math.max(Math.round(rangeMeters), firstPoint.rangeMeters),
+    Math.max(Math.round(rangeMeters), 0),
     lastPoint.rangeMeters,
   );
 }
 
 export function buildInterpolatedSeries(points: BallisticPoint[]) {
   const sortedPoints = getSortedPoints(points);
-  const firstPoint = sortedPoints[0];
   const lastPoint = sortedPoints[sortedPoints.length - 1];
   const series: InterpolatedDeviation[] = [];
 
   for (
-    let rangeMeters = firstPoint.rangeMeters;
+    let rangeMeters = 0;
     rangeMeters <= lastPoint.rangeMeters;
     rangeMeters += 1
   ) {

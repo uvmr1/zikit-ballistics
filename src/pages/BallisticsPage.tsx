@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { BallisticChart } from "../components/BallisticChart";
 import { BallisticInfoCard } from "../components/BallisticInfoCard";
 import { DeviationReadout } from "../components/DeviationReadout";
-import { SearchBox } from "../components/SearchBox";
 import { SightSelector } from "../components/SightSelector";
 import { WeaponSelector } from "../components/WeaponSelector";
 import { ballisticProfiles, uniqueWeapons } from "../data/ballistics";
@@ -11,20 +10,7 @@ import {
   type InterpolatedDeviation,
 } from "../utils/interpolation";
 
-function normalize(value: string) {
-  return value.trim().toLocaleLowerCase("he-IL");
-}
-
-function matchesQuery(profileText: string, query: string) {
-  if (!query) {
-    return true;
-  }
-
-  return normalize(profileText).includes(normalize(query));
-}
-
 export function BallisticsPage() {
-  const [query, setQuery] = useState("");
   const [selectedWeapon, setSelectedWeapon] = useState(uniqueWeapons[0]);
   const [selectedSight, setSelectedSight] = useState(
     ballisticProfiles[0].sight,
@@ -37,10 +23,8 @@ export function BallisticsPage() {
   );
 
   const visibleProfiles = useMemo(() => {
-    return ballisticProfiles.filter((profile) =>
-      matchesQuery(`${profile.weapon} ${profile.sight}`, query),
-    );
-  }, [query]);
+    return ballisticProfiles;
+  }, []);
 
   const weapons = useMemo(() => {
     const source = visibleProfiles.length > 0 ? visibleProfiles : ballisticProfiles;
@@ -87,8 +71,6 @@ export function BallisticsPage() {
     );
   }, [selectedProfile]);
 
-  const noSearchResults = query.trim().length > 0 && visibleProfiles.length === 0;
-
   return (
     <main className="appShell">
       <header className="hero">
@@ -100,10 +82,6 @@ export function BallisticsPage() {
       </header>
 
       <section className="controls" aria-label="בחירת פרופיל">
-        <SearchBox value={query} onChange={setQuery} />
-        {noSearchResults && (
-          <p className="emptyState">לא נמצאו פרופילים שתואמים לחיפוש.</p>
-        )}
         <WeaponSelector
           weapons={weapons}
           value={selectedWeapon}
