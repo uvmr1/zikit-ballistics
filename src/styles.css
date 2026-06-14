@@ -97,15 +97,14 @@ button {
 }
 
 .companyLogo {
-  width: min(420px, 99vw);
-  max-height: 124px;
+  width: min(390px, 96vw);
+  max-height: 116px;
   object-fit: contain;
-  transform: scaleY(0.66);
+  transform: scaleY(0.68);
   transform-origin: center;
-  filter: contrast(1.08) saturate(1.55) brightness(1.22)
-    drop-shadow(0 0 10px rgba(255, 235, 194, 0.22))
-    drop-shadow(0 0 22px rgba(216, 246, 165, 0.24))
-    drop-shadow(0 10px 20px rgba(0, 0, 0, 0.68));
+  filter: hue-rotate(92deg) saturate(1.55) brightness(1.32)
+    drop-shadow(0 0 14px rgba(216, 246, 165, 0.36))
+    drop-shadow(0 8px 18px rgba(0, 0, 0, 0.64));
 }
 
 h1 {
@@ -153,6 +152,7 @@ footer {
 
 .field {
   display: grid;
+  min-width: 0;
   gap: 6px;
   color: var(--muted);
   font-size: 0.88rem;
@@ -160,6 +160,7 @@ footer {
 
 .choiceCard {
   position: relative;
+  min-width: 0;
   min-height: 82px;
   padding: 9px;
   border: 1px solid rgba(114, 226, 124, 0.24);
@@ -253,16 +254,14 @@ button:focus-visible {
 
 .chartPanel {
   position: relative;
-  left: 50%;
-  right: 50%;
+  left: auto;
   padding: 10px 0 12px;
-  width: 100dvw;
+  width: 100%;
   margin-top: 12px;
-  margin-right: -50dvw;
-  margin-left: -50dvw;
-  border-right: 0;
-  border-left: 0;
-  border-radius: 0;
+  margin-right: 0;
+  margin-left: 0;
+  border-radius: 8px;
+  transform: none;
   overflow: hidden;
 }
 
@@ -309,6 +308,7 @@ button:focus-visible {
 
 .metricWindow {
   position: relative;
+  min-width: 0;
   min-height: 104px;
   padding: 12px;
   border: 1px solid rgba(216, 246, 165, 0.26);

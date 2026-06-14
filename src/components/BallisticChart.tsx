@@ -137,12 +137,6 @@ export function BallisticChart({
               y={0}
               stroke="#9dbb9f"
               strokeDasharray="4 4"
-              label={{
-                value: "קו איפוס",
-                fill: "#bdd5bf",
-                fontSize: 12,
-                position: "insideTopRight",
-              }}
             />
             <Line
               type="natural"
