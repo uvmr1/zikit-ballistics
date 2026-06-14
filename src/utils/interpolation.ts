@@ -32,6 +32,41 @@ function getQuadraticEstimate(points: BallisticPoint[], rangeMeters: number) {
   return firstTerm + secondTerm + thirdTerm;
 }
 
+function getHermiteEstimate(
+  points: BallisticPoint[],
+  segmentIndex: number,
+  rangeMeters: number,
+) {
+  const pointBefore = points[Math.max(segmentIndex - 1, 0)];
+  const pointStart = points[segmentIndex];
+  const pointEnd = points[segmentIndex + 1];
+  const pointAfter = points[Math.min(segmentIndex + 2, points.length - 1)];
+
+  const segmentWidth = pointEnd.rangeMeters - pointStart.rangeMeters;
+  const t = (rangeMeters - pointStart.rangeMeters) / segmentWidth;
+  const t2 = t * t;
+  const t3 = t2 * t;
+
+  const startSlope =
+    (pointEnd.deviationCm - pointBefore.deviationCm) /
+    (pointEnd.rangeMeters - pointBefore.rangeMeters || segmentWidth);
+  const endSlope =
+    (pointAfter.deviationCm - pointStart.deviationCm) /
+    (pointAfter.rangeMeters - pointStart.rangeMeters || segmentWidth);
+
+  const h00 = 2 * t3 - 3 * t2 + 1;
+  const h10 = t3 - 2 * t2 + t;
+  const h01 = -2 * t3 + 3 * t2;
+  const h11 = t3 - t2;
+
+  return (
+    h00 * pointStart.deviationCm +
+    h10 * segmentWidth * startSlope +
+    h01 * pointEnd.deviationCm +
+    h11 * segmentWidth * endSlope
+  );
+}
+
 export function getInterpolatedDeviation(
   points: BallisticPoint[],
   rangeMeters: number,
@@ -86,15 +121,9 @@ export function getInterpolatedDeviation(
       rangeMeters > pointBefore.rangeMeters &&
       rangeMeters < pointAfter.rangeMeters
     ) {
-      const deviationCm =
-        pointBefore.deviationCm +
-        ((rangeMeters - pointBefore.rangeMeters) *
-          (pointAfter.deviationCm - pointBefore.deviationCm)) /
-          (pointAfter.rangeMeters - pointBefore.rangeMeters);
-
       return {
         rangeMeters,
-        deviationCm,
+        deviationCm: getHermiteEstimate(sortedPoints, index, rangeMeters),
         isExactPoint: false,
       };
     }

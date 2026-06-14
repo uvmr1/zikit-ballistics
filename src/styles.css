@@ -97,27 +97,31 @@ button {
 }
 
 .companyLogo {
-  width: min(178px, 56vw);
-  max-height: 92px;
+  width: min(248px, 82vw);
+  max-height: 112px;
   object-fit: contain;
   filter: hue-rotate(95deg) saturate(1.25) brightness(1.12)
-    drop-shadow(0 0 18px rgba(114, 226, 124, 0.22));
+    drop-shadow(0 0 18px rgba(114, 226, 124, 0.24));
 }
 
 h1 {
   margin: 0;
   font-family:
-    "Bahnschrift Condensed",
+    "Stencil",
+    "Impact",
     "Agency FB",
+    "Bahnschrift Condensed",
     "Arial Narrow",
     Arial,
     sans-serif;
-  font-size: clamp(1.28rem, 6vw, 2.05rem);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: 0;
+  font-size: clamp(1.42rem, 6.5vw, 2.25rem);
+  font-weight: 800;
+  line-height: 0.96;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  text-shadow: 0 0 18px rgba(114, 226, 124, 0.2);
+  text-shadow:
+    0 1px 0 rgba(216, 246, 165, 0.24),
+    0 0 18px rgba(114, 226, 124, 0.22);
 }
 
 .hero p,
@@ -337,20 +341,23 @@ button:focus-visible {
 }
 
 .readoutStatus {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  display: block;
   margin-top: 10px;
-  padding: 9px 10px;
+  padding: 9px 8px;
   border: 1px solid rgba(114, 226, 124, 0.22);
   border-radius: 8px;
   background: rgba(114, 226, 124, 0.07);
+  overflow: hidden;
+  text-align: center;
 }
 
 .readoutStatus span {
+  display: block;
   color: var(--amber);
+  font-size: clamp(0.78rem, 3.45vw, 1rem);
   font-weight: 700;
+  line-height: 1.15;
+  white-space: nowrap;
 }
 
 footer {

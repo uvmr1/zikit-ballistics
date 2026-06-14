@@ -38,11 +38,6 @@ export function DeviationReadout({ reading }: DeviationReadoutProps) {
       </div>
       <div className="readoutStatus">
         <span>{status}</span>
-        <small>
-          {reading.isExactPoint
-            ? "נקודה מקורית מהטבלה"
-            : "ערך מחושב בין נקודות הטבלה"}
-        </small>
       </div>
     </section>
   );

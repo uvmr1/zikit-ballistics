@@ -169,7 +169,7 @@ export function BallisticChart({
           </ComposedChart>
         </ResponsiveContainer>
       </div>
-      <p className="chartNote">ערכים בין נקודות הטבלה מחושבים בקירוב לינארי.</p>
+      <p className="chartNote">העקומה מוצגת כהערכה רציפה לפי נקודות הטבלה.</p>
     </section>
   );
 }
