@@ -76,7 +76,6 @@ export function BallisticsPage() {
         <img className="companyLogo" src="/zikit-flat.png" alt="לוגו זיקית" />
         <div>
           <h1>ZIKIT BALLISTICS</h1>
-          <p>לימוד סטיות בליסטיות לפי נשק וכוונת</p>
         </div>
       </header>
 
