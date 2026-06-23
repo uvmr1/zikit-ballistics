@@ -1136,7 +1136,7 @@ export const ballisticProfiles: BallisticProfile[] = [
     "points": [
       {
         "rangeMeters": 25,
-        "deviationCm": 4
+        "deviationCm": -4
       },
       {
         "rangeMeters": 50,

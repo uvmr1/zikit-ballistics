@@ -32,41 +32,6 @@ function getQuadraticEstimate(points: BallisticPoint[], rangeMeters: number) {
   return firstTerm + secondTerm + thirdTerm;
 }
 
-function getHermiteEstimate(
-  points: BallisticPoint[],
-  segmentIndex: number,
-  rangeMeters: number,
-) {
-  const pointBefore = points[Math.max(segmentIndex - 1, 0)];
-  const pointStart = points[segmentIndex];
-  const pointEnd = points[segmentIndex + 1];
-  const pointAfter = points[Math.min(segmentIndex + 2, points.length - 1)];
-
-  const segmentWidth = pointEnd.rangeMeters - pointStart.rangeMeters;
-  const t = (rangeMeters - pointStart.rangeMeters) / segmentWidth;
-  const t2 = t * t;
-  const t3 = t2 * t;
-
-  const startSlope =
-    (pointEnd.deviationCm - pointBefore.deviationCm) /
-    (pointEnd.rangeMeters - pointBefore.rangeMeters || segmentWidth);
-  const endSlope =
-    (pointAfter.deviationCm - pointStart.deviationCm) /
-    (pointAfter.rangeMeters - pointStart.rangeMeters || segmentWidth);
-
-  const h00 = 2 * t3 - 3 * t2 + 1;
-  const h10 = t3 - 2 * t2 + t;
-  const h01 = -2 * t3 + 3 * t2;
-  const h11 = t3 - t2;
-
-  return (
-    h00 * pointStart.deviationCm +
-    h10 * segmentWidth * startSlope +
-    h01 * pointEnd.deviationCm +
-    h11 * segmentWidth * endSlope
-  );
-}
-
 function getLinearEstimate(
   pointBefore: BallisticPoint,
   pointAfter: BallisticPoint,
@@ -175,7 +140,77 @@ export function buildInterpolatedSeries(points: BallisticPoint[]) {
   return series;
 }
 
-export function buildVisualCurveSeries(points: BallisticPoint[]) {
+function getSecondZeroRange(
+  points: BallisticPoint[],
+  zeroRangeMeters: number,
+) {
+  return points.find(
+    (point) =>
+      point.rangeMeters > zeroRangeMeters &&
+      Math.abs(point.deviationCm) < 0.0001,
+  )?.rangeMeters;
+}
+
+function getBallisticCoefficient(
+  points: BallisticPoint[],
+  zeroRangeMeters: number,
+  secondZeroRange: number,
+) {
+  let numerator = 0;
+  let denominator = 0;
+
+  for (const point of points) {
+    const basis =
+      (point.rangeMeters - zeroRangeMeters) *
+      (secondZeroRange - point.rangeMeters);
+
+    numerator += basis * point.deviationCm;
+    denominator += basis * basis;
+  }
+
+  if (denominator === 0) {
+    return 0;
+  }
+
+  return Math.max(numerator / denominator, 0);
+}
+
+export function getVisualCurveDeviation(
+  points: BallisticPoint[],
+  zeroRangeMeters: number,
+  rangeMeters: number,
+): InterpolatedDeviation {
+  const sortedPoints = getSortedPoints(points);
+  const lastPoint = sortedPoints[sortedPoints.length - 1];
+  const clampedRange = Math.min(Math.max(rangeMeters, 0), lastPoint.rangeMeters);
+  const secondZeroRange = getSecondZeroRange(sortedPoints, zeroRangeMeters);
+
+  if (!secondZeroRange) {
+    return getInterpolatedDeviation(sortedPoints, clampedRange);
+  }
+
+  const coefficient = getBallisticCoefficient(
+    sortedPoints,
+    zeroRangeMeters,
+    secondZeroRange,
+  );
+
+  return {
+    rangeMeters: clampedRange,
+    deviationCm:
+      coefficient *
+      (clampedRange - zeroRangeMeters) *
+      (secondZeroRange - clampedRange),
+    isExactPoint: sortedPoints.some(
+      (point) => point.rangeMeters === clampedRange,
+    ),
+  };
+}
+
+export function buildVisualCurveSeries(
+  points: BallisticPoint[],
+  zeroRangeMeters: number,
+) {
   const sortedPoints = getSortedPoints(points);
   const lastPoint = sortedPoints[sortedPoints.length - 1];
   const series: InterpolatedDeviation[] = [];
@@ -185,49 +220,9 @@ export function buildVisualCurveSeries(points: BallisticPoint[]) {
     rangeMeters <= lastPoint.rangeMeters;
     rangeMeters += 1
   ) {
-    if (rangeMeters <= sortedPoints[0].rangeMeters) {
-      series.push({
-        rangeMeters,
-        deviationCm: getQuadraticEstimate(sortedPoints, rangeMeters),
-        isExactPoint: rangeMeters === sortedPoints[0].rangeMeters,
-      });
-      continue;
-    }
-
-    if (rangeMeters >= lastPoint.rangeMeters) {
-      series.push({
-        rangeMeters: lastPoint.rangeMeters,
-        deviationCm: lastPoint.deviationCm,
-        isExactPoint: true,
-      });
-      continue;
-    }
-
-    const exactPoint = sortedPoints.find(
-      (point) => point.rangeMeters === rangeMeters,
+    series.push(
+      getVisualCurveDeviation(sortedPoints, zeroRangeMeters, rangeMeters),
     );
-
-    if (exactPoint) {
-      series.push({
-        rangeMeters: exactPoint.rangeMeters,
-        deviationCm: exactPoint.deviationCm,
-        isExactPoint: true,
-      });
-      continue;
-    }
-
-    const segmentIndex = sortedPoints.findIndex(
-      (point, index) =>
-        index < sortedPoints.length - 1 &&
-        rangeMeters > point.rangeMeters &&
-        rangeMeters < sortedPoints[index + 1].rangeMeters,
-    );
-
-    series.push({
-      rangeMeters,
-      deviationCm: getHermiteEstimate(sortedPoints, segmentIndex, rangeMeters),
-      isExactPoint: false,
-    });
   }
 
   return series;

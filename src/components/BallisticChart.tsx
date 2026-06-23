@@ -15,6 +15,7 @@ import {
   clampRange,
   getInterpolatedDeviation,
   getSortedPoints,
+  getVisualCurveDeviation,
   type InterpolatedDeviation,
 } from "../utils/interpolation";
 
@@ -40,18 +41,31 @@ export function BallisticChart({
   );
 
   const series = useMemo(
-    () => buildVisualCurveSeries(sortedPoints),
-    [sortedPoints],
+    () => buildVisualCurveSeries(sortedPoints, profile.zeroRangeMeters),
+    [profile.zeroRangeMeters, sortedPoints],
+  );
+
+  const visualMarker = useMemo(
+    () =>
+      getVisualCurveDeviation(
+        sortedPoints,
+        profile.zeroRangeMeters,
+        marker.rangeMeters,
+      ),
+    [marker.rangeMeters, profile.zeroRangeMeters, sortedPoints],
   );
 
   const yDomain = useMemo(() => {
-    const deviations = sortedPoints.map((point) => point.deviationCm);
+    const deviations = [
+      ...sortedPoints.map((point) => point.deviationCm),
+      ...series.map((point) => point.deviationCm),
+    ];
     const min = Math.min(...deviations, 0);
     const max = Math.max(...deviations, 0);
     const padding = Math.max(4, Math.ceil((max - min) * 0.15));
 
     return [Math.floor(min - padding), Math.ceil(max + padding)];
-  }, [sortedPoints]);
+  }, [series, sortedPoints]);
 
   const minRange = 0;
   const maxRange = sortedPoints[sortedPoints.length - 1].rangeMeters;
@@ -139,7 +153,7 @@ export function BallisticChart({
               strokeDasharray="4 4"
             />
             <Line
-              type="natural"
+              type="linear"
               dataKey="deviationCm"
               stroke="#62d36f"
               strokeWidth={4}
@@ -154,7 +168,7 @@ export function BallisticChart({
             />
             <ReferenceDot
               x={marker.rangeMeters}
-              y={marker.deviationCm}
+              y={visualMarker.deviationCm}
               r={5}
               fill="#f4ffe7"
               stroke="#0c160e"
@@ -164,7 +178,7 @@ export function BallisticChart({
         </ResponsiveContainer>
       </div>
       <p className="chartNote">
-        המספרים מחושבים בקירוב לינארי; הקו מוחלק להצגה חזותית.
+        המספרים מחושבים בקירוב לינארי; הקו מוצג בקירוב בליסטי חלק.
       </p>
     </section>
   );
